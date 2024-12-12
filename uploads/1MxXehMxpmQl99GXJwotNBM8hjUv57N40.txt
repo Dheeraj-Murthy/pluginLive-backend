@@ -1,0 +1,29 @@
+
+Transcription Report
+=====================
+ID: 48724c7d-5035-4180-9075-3a20f48a8f92
+Status: completed
+Audio URL: https://drive.google.com/uc?id=1q1I-nV9MR9moejMxcMN0gp6A3ThkNU3z&export=download
+Overall Confidence: 94.91%
+
+Question: How do you stay updated with industry trends?
+
+Transcript:
+-----------
+Patnaik plays very well last year. He will not play very well last year.
+
+Word-by-Word Details:
+---------------------
+Filler Words: 2
+Unique Vocabulary: 9
+Total Words: 14
+
+Different Words:
+patnaik, plays, very, last, year., he, will, not, play
+
+Grammar/Syntax Issues Found: 1
+
+Issue 1:
+- Message: ‘last year’ indicates a finished event of the past. Please check the predicate’s tense.
+- Suggestion: 
+- Context: ...l last year. He will not play very well last year.

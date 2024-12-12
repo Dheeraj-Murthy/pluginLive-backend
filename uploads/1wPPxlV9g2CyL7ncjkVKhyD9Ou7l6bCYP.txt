@@ -1,0 +1,24 @@
+
+Transcription Report
+=====================
+ID: 62c0da9d-3492-4428-bfd9-37c4eb6fd57a
+Status: completed
+Audio URL: https://drive.google.com/uc?id=10v_3paBes1ovfG72N_scIMdhfKAQIQ2O&export=download
+Overall Confidence: 90.92%
+
+Question: Tell us about yourself?
+
+Transcript:
+-----------
+Bro.
+
+Word-by-Word Details:
+---------------------
+Filler Words: 0
+Unique Vocabulary: 1
+Total Words: 1
+
+Different Words:
+bro.
+
+No Grammar/Syntax Issues Found.

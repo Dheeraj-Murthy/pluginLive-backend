@@ -1,0 +1,37 @@
+
+Transcription Report
+=====================
+ID: 48b0eb27-a266-4d5f-9574-31be89d6e5fd
+Status: completed
+Audio URL: https://drive.google.com/uc?id=1UIvF3v9LSMnFMZnf-1xh3sRhrTh64AQT&export=download
+Overall Confidence: 95.33%
+
+Question: Tell us about yourself?
+
+Transcript:
+-----------
+Hey there. She don't like being in very good place because he don't playing very well.
+
+Word-by-Word Details:
+---------------------
+Filler Words: 1
+Unique Vocabulary: 13
+Total Words: 16
+
+Different Words:
+hey, there., she, don't, being, in, very, good, place, because, he, playing, well.
+
+Grammar/Syntax Issues Found: 3
+
+Issue 1:
+- Message: The pronoun ‘She’ is usually used with a third-person or a past tense verb.
+- Suggestion: does, did
+- Context: Hey there. She don't like being in very good place becaus...
+Issue 2:
+- Message: The pronoun ‘he’ is usually used with a third-person or a past tense verb.
+- Suggestion: does, did
+- Context: ...ike being in very good place because he don't playing very well.
+Issue 3:
+- Message: After the auxiliary verb ‘do’, use the base form of a verb. Did you mean “play”?
+- Suggestion: play
+- Context: ...ing in very good place because he don't playing very well.

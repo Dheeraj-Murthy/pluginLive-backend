@@ -1,0 +1,24 @@
+
+Transcription Report
+=====================
+ID: e8b29fb3-9398-4f5a-a695-7b274008ee91
+Status: completed
+Audio URL: https://drive.google.com/uc?id=19_fKVWJ2MumYJopsu79hCiYKGSLbLR0H&export=download
+Overall Confidence: 77.82%
+
+Question: What inspired you to choose your career path?
+
+Transcript:
+-----------
+Hello, world.
+
+Word-by-Word Details:
+---------------------
+Filler Words: 0
+Unique Vocabulary: 2
+Total Words: 2
+
+Different Words:
+hello,, world.
+
+No Grammar/Syntax Issues Found.

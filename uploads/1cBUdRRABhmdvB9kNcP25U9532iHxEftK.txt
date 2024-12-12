@@ -1,0 +1,24 @@
+
+Transcription Report
+=====================
+ID: d3a5e80e-121c-439c-bef0-2cba32f35a66
+Status: completed
+Audio URL: https://drive.google.com/uc?id=1hwEhY8SpEKa4BLPzM_2WibQGezlqtFZR&export=download
+Overall Confidence: 0.00%
+
+Question: Tell us about yourself?
+
+Transcript:
+-----------
+
+
+Word-by-Word Details:
+---------------------
+Filler Words: 0
+Unique Vocabulary: 0
+Total Words: 0
+
+Different Words:
+
+
+No Grammar/Syntax Issues Found.
