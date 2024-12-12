@@ -266,6 +266,8 @@ async function checkSyntaxAndGrammar(text) {
 }
 
 // API Route to handle video uploads and transcriptions
+
+
 app.post("/upload", upload.single("video"), async (req, res) => {
   const { userId, question } = req.body;
   const video = req.file;
@@ -274,7 +276,7 @@ app.post("/upload", upload.single("video"), async (req, res) => {
     return res.status(400).send("No video file uploaded.");
   }
 
-  const filePath = video.path;
+  const filePath = video.path; // Keep the uploaded file as is (webm format)
   const folderId = "1Eqabl8yhSbMK6zV7PZNdkerXVMIRucDu"; // VideoRep folder ID
   let userFolderId;
 
@@ -295,35 +297,28 @@ app.post("/upload", upload.single("video"), async (req, res) => {
     userFolderId = await getOrCreateFolder(userId.toString(), folderId);
 
     // Determine the next serial number
-    // const serialNo = await getNextSerialNumber(userId, question);
     const serialNo = req.serialNo + 1;
 
-    // Create the file name
-    const fileName = `${userId}_${questionCode}_${serialNo}.mp4`;
-    const mp4FilePath = path.join(uploadDir, fileName);
+    // Create the file name (retain webm format)
+    const fileName = `${userId}_${questionCode}_${serialNo}.webm`;
 
-    // Convert video to MP4 format
-    await transcodeToMp4(filePath, mp4FilePath);
-
-    // Upload MP4 file to user-specific Google Drive folder
+    // Upload webm file to user-specific Google Drive folder
     const driveFileId = await uploadFileToGoogleDrive(
-      mp4FilePath,
+      filePath,
       fileName,
       userFolderId
     );
 
-    // Save the response to the database
+    // Save the response to the database (optional)
     // await saveResponseToDatabase(userId, question, driveFileId);
 
     // Transcription handling
     const transcriptionResponse = await transcribeFromURL(
       "https://drive.google.com/uc?id=" + driveFileId + "&export=download"
     );
-    console.log(transcriptionResponse);
 
     // Wait for transcription to complete
     let transcriptionResult;
-    console.log("Yayyy!");
     while (true) {
       const result = await getTranscription({ id: transcriptionResponse }, res);
       if (result.status === "completed") {
@@ -339,44 +334,41 @@ app.post("/upload", upload.single("video"), async (req, res) => {
     }
 
     // Save transcription result as JSON file
-    const jsonFilePath = mp4FilePath.replace(".mp4", ".json");
+    const jsonFilePath = filePath.replace(".webm", ".json");
     fs.writeFileSync(
       jsonFilePath,
       JSON.stringify(transcriptionResult, null, 2)
     );
     const JSONFileName = `${userId}_${questionCode}_${serialNo}.json`;
-    console.log("Here?");
     const jsonDriveFileId = await uploadJsonFile(
       jsonFilePath,
       JSONFileName,
       userFolderId
-    ); // todo : please put in the drive-link and name
-    console.log("No, here");
+    );
 
+    // Send success response
     res.status(200).send({
-      file_id: driveFileId, transcript_id: jsonDriveFileId, question: question, user_id: userId
+      file_id: driveFileId,
+      transcript_id: jsonDriveFileId,
+      question: question,
+      user_id: userId,
     });
 
-    console.log("1");
-
-    // Delete the original video file
+    // Clean up files
     fs.unlink(filePath, (err) => {
       if (err) console.error("Error deleting original file:", err);
-    });
-    fs.unlink(mp4FilePath, (err) => {
-      if (err) console.error("Error deleting MP4 file:", err);
     });
     fs.unlink(jsonFilePath, (err) => {
       if (err) console.error("Error deleting JSON file:", err);
     });
-    console.log("2");
-    return { file_id: driveFileId, transcript_id: jsonDriveFileId, question: question, user_id: userId };
   } catch (error) {
     console.error("Error uploading video or processing transcription:", error);
     res.status(500).send("Failed to upload video or process transcription.");
   }
-
 });
+
+
+
 // Middleware to parse JSON and form-data requests
 // app.use(express.urlencoded({ extended: true })); For parsing application/x-www-form-urlencoded
 // app.use(express.json()); For parsing application/json
