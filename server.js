@@ -373,7 +373,7 @@ app.post("/upload", upload.single("video"), async (req, res) => {
 // app.use(express.urlencoded({ extended: true })); For parsing application/x-www-form-urlencoded
 // app.use(express.json()); For parsing application/json
 
-app.post("/report", upload.single("file"), async (req, res) => {
+app.post("/report", upload.none(), async (req, res) => {
   console.log("Received body:", req.body); // Log the body to check
   try {
     const { transcription_id, question } = req.body;
