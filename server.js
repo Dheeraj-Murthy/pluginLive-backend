@@ -85,7 +85,7 @@ app.use(
 const PORT = 3000;
 
 // Ensure 'uploads' directory exists
-const uploadDir = path.join(__dirname, "uploads");
+const uploadDir = path.join(__dirname, "tmp");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
@@ -421,7 +421,7 @@ app.post("/report", upload.none(), async (req, res) => {
         });
       });
     };
-    const completeTextFilePath = "uploads/" + transcription_id + ".txt";
+    const completeTextFilePath = "tmp/" + transcription_id + ".txt";
 
     const processData = async () => {
       try {
