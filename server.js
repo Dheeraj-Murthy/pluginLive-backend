@@ -414,29 +414,31 @@ app.post("/report", upload.single("file"), async (req, res) => {
     const processData = async () => {
       try {
         const data = await getData(); // Await the Promise to get the data
-        await generateTranscriptionReport(data, completeTextFilePath, question); // Pass the data to your function
+        const report = await generateTranscriptionReport(data, completeTextFilePath, question); // Pass the data to your function
+        return report;
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
-    await processData();
+    const report = await processData();
     // sending data to frontend
+    res.json(report);
 
-    const filePath = path.join(__dirname, completeTextFilePath);
-    const fileName = transcription_id + ".txt";
-
-    res.setHeader('Content-Type', 'text/plain');
-    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-
-    const readStream = fs.createReadStream(filePath);
-    readStream.pipe(res);
-
-    readStream.on('error', (err) => {
-      console.error('File read error:', err);
-      res.status(500).send('An error occurred while streaming the file.');
-    });
-    console.log("hello is this cumming");
+    // const filePath = path.join(__dirname, completeTextFilePath);
+    // const fileName = transcription_id + ".txt";
+    //
+    // res.setHeader('Content-Type', 'text/plain');
+    // res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    //
+    // const readStream = fs.createReadStream(filePath);
+    // readStream.pipe(res);
+    //
+    // readStream.on('error', (err) => {
+    //   console.error('File read error:', err);
+    //   res.status(500).send('An error occurred while streaming the file.');
+    // });
+    // console.log("hello is this cumming");
   } catch (error) {
     console.error("Error in /report route:", error);
     return res

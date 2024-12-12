@@ -1,4 +1,3 @@
-const fs = require("fs");
 const axios = require("axios");
 
 //^ lt api
@@ -24,21 +23,13 @@ async function checkSyntaxAndGrammar(text) {
       (match) => match.rule.category.id !== "TYPOS" // Exclude typos/spelling issues
     );
 
-    console.log("Grammar/Syntax Issues Found:", matches.length);
     let ans = '';
 
     matches.forEach((match, index) => {
-      console.log(`Issue ${index + 1}:`);
-      console.log(`- Message: ${match.message}`);
-      console.log(
-        `- Suggestion: ${match.replacements.map((r) => r.value).join(", ")}`
-      );
-      console.log(`- Context: ${match.context.text}`);
       ans += `Issue ${index + 1}:\n`;
       ans += `- Message: ${match.message}\n`;
       ans += `- Suggestion: ${match.replacements.map((r) => r.value).join(", ")}\n`;
       ans += `- Context: ${match.context.text}\n`;
-
     });
 
     return { count: matches.length, issues: ans }; // Return count and issues for the report
@@ -64,30 +55,32 @@ const fillerWords = [
 ];
 
 /**
- * Generate and save a transcription report, including LT API results.
+ * Generate and return a transcription report as a JSON object, including LT API results.
  *
  * @param {Object} response - The transcription response object.
  * @param {Array} fillerWords - An array of filler words to check against.
- * @param {string} filePath - The file path where the report will be saved.
+ * @param {string} question - The question related to the transcription.
+ * @returns {Object} - The transcription report in JSON format.
  */
-async function generateTranscriptionReport(response, filePath = "report.txt", question) {
-  let report = `
-Transcription Report
-=====================
-ID: ${response.id}
-Status: ${response.status}
-Audio URL: ${response.audio_url}
-Overall Confidence: ${(response.confidence * 100).toFixed(2)}%
-
-Question: ${question}
-
-Transcript:
------------
-${response.text}
-
-Word-by-Word Details:
----------------------
-`;
+async function generateTranscriptionReport(response, question) {
+  let report = {
+    id: response.id,
+    status: response.status,
+    audio_url: response.audio_url,
+    overall_confidence: (response.confidence * 100).toFixed(2),
+    question: question,
+    transcript: response.text,
+    word_details: {
+      filler_words_count: 0,
+      unique_vocabulary: 0,
+      total_words: 0,
+      different_words: [],
+    },
+    grammar_syntax_issues: {
+      count: 0,
+      issues: "",
+    },
+  };
 
   let fillerCount = 0;
   let vocabulary = 0;
@@ -106,28 +99,23 @@ Word-by-Word Details:
     }
   });
 
-  report += `Filler Words: ${fillerCount}\nUnique Vocabulary: ${vocabulary}\nTotal Words: ${totalWords}\n\nDifferent Words:\n${wordsEncountered.join(
-    ", "
-  )}\n`;
+  report.word_details.filler_words_count = fillerCount;
+  report.word_details.unique_vocabulary = vocabulary;
+  report.word_details.total_words = totalWords;
+  report.word_details.different_words = wordsEncountered;
 
   // Call the LT API to check grammar and syntax
   const { count, issues } = await checkSyntaxAndGrammar(response.text);
 
   if (count > 0) {
-    report += `\nGrammar/Syntax Issues Found: ${count}\n\n`;
-    report += issues; // Append grammar issues directly
+    report.grammar_syntax_issues.count = count;
+    report.grammar_syntax_issues.issues = issues;
   } else {
-    report += `\nNo Grammar/Syntax Issues Found.\n`;
+    report.grammar_syntax_issues.count = 0;
+    report.grammar_syntax_issues.issues = "No Grammar/Syntax Issues Found.";
   }
 
-  try {
-    // Write the report synchronously
-    fs.writeFileSync(filePath, report);
-    console.log(`Report saved to "${filePath}"`);
-  } catch (err) {
-    console.error("Error writing file:", err);
-  }
-  return {};
+  return report; // Return the transcription report as a JSON object
 }
 
 module.exports = generateTranscriptionReport;
